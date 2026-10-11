@@ -131,7 +131,7 @@
     await Search.loadData();
 
     let currentPage = 1;
-    let currentData = [];
+    let currentQuery = '';
     const params = new URLSearchParams(window.location.search);
     const category = params.get('category');
 
@@ -142,6 +142,9 @@
     }
 
     function getData() {
+      if (currentQuery) {
+        return Search.query(currentQuery);
+      }
       if (category) {
         return Search.getByCategory(category);
       }
@@ -149,7 +152,7 @@
     }
 
     function render() {
-      currentData = getData();
+      const currentData = getData();
       const totalPages = Render.charCards(currentData, container, currentPage);
       Render.pagination(currentPage, totalPages || 1, paginationContainer, (page) => {
         currentPage = page;
@@ -161,14 +164,9 @@
 
     if (searchInput) {
       searchInput.addEventListener('input', Utils.debounce((e) => {
-        const q = e.target.value.trim();
-        currentData = q ? Search.query(q) : getData();
+        currentQuery = e.target.value.trim();
         currentPage = 1;
-        const totalPages = Render.charCards(currentData, container, currentPage);
-        Render.pagination(currentPage, totalPages || 1, paginationContainer, (page) => {
-          currentPage = page;
-          render();
-        });
+        render();
       }, CONFIG.SEARCH_DEBOUNCE));
     }
   }
