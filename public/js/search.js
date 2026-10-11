@@ -101,6 +101,7 @@ const Search = {
     const q = text.toLowerCase().trim();
 
     return this.data.filter(d => {
+      if (!d || typeof d.char !== 'string') return false;
       if (d.char === q) return true;
       if (d.char.toLowerCase().includes(q)) return true;
       if (d.name && d.name.toLowerCase().includes(q)) return true;

@@ -13,6 +13,7 @@ const Render = {
 
     let html = '';
     for (const item of pageData) {
+      if (!item || typeof item.char !== 'string') continue;
       const isFav = Storage.isFavorite(item.char) ? 'active' : '';
       const charStr = item.char.replace(/'/g, "&#39;");
       html += `

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'faunicode-v2';
+const CACHE_NAME = 'faunicode-v3';
 const ASSETS = [
   '/',
   '/index.html',
